@@ -1,4 +1,4 @@
-import argparse, os, re, string, pprint
+import argparse, os, re, string, pprint, operator
 import cPickle as pickle
 
 def main():
@@ -13,6 +13,8 @@ def main():
 	                   help='apply case sensitivity when searching for phrase')
 	parser.add_argument('--rebuild-index', dest='rebuild_index', action='store_true',
 	                   help='force a rebuild of the forward index')
+	parser.add_argument('--index-stats', dest='index_stats', action='store_true',
+	                   help='print out statistics of index files')
 	args = parser.parse_args()
 
 	document = args.file
@@ -36,6 +38,9 @@ def main():
 		print "Avg word distance: " + str( reduce(lambda x,y: x+y, results) / len(results) )
 	else:
 		print "No occurances of '%s' found in %s" % ( phrase, document )
+		
+	if (args.index_stats):
+		compute_index_stats(document)
 
 
 def index_search(phrase, document, case_sensitivity=False, doc_override=""):
@@ -118,6 +123,23 @@ def find_index(document):
 	Find indices for document in current working directory
 	"""
 	return len(filter(lambda f: f.find(".idx")>0, os.listdir("."))) > 0
+
+def compute_index_stats(document):
+	"""
+	Print interesting phrase statistics from index files
+	"""
+	for index_file in filter(lambda f: f.find(".idx")>0, os.listdir(".")):
+		index = pickle.load(open(index_file, 'rb'))
+		sized_index = {}
+		for p in index:
+			sized_index[p] = len(index[p])
+			
+		# Sorted rep of a dict: http://stackoverflow.com/questions/613183/python-sort-a-dictionary-by-value
+		sized_index = sorted(sized_index.iteritems(), key=operator.itemgetter(1))
+		print
+		print "Most popular %s-length phrases (from %s)" % (index_file.split('.')[0].split('_')[1] , index_file)
+		print sized_index[-5:-1]
+		
 
 def linear_search(phrase, document, case_sensitive=False):
 	"""
