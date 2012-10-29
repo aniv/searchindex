@@ -33,11 +33,11 @@ def main():
 		results = index_search(phrase, document, args.case_sensitive)
 
 	if (len(results) > 0):
-		print "%d occurances of '%s' in '%s'" % ( len(results), phrase, document )
+		print "%d occurences of '%s' in '%s'" % ( len(results), phrase, document )
 		print "Word positions: " + str(results)
 		print "Avg word distance: " + str( reduce(lambda x,y: x+y, results) / len(results) )
 	else:
-		print "No occurances of '%s' found in %s" % ( phrase, document )
+		print "No occurences of '%s' found in %s" % ( phrase, document )
 		
 	if (args.index_stats):
 		compute_index_stats(document)
