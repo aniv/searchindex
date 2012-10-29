@@ -16,9 +16,7 @@ Run the program using this sample input file of War and Peace in text version us
     [('as soon as', 135), ('that he was', 144), ('out of the', 164), ('one of the', 164)]
 
 ## Solution:
-I solved this by building an app that generates a series of inverted indices of phrases found in the source document. I consider a phrase to be a series of words separated by spaces. The inverted index allows for a constant-time (i.e. O(1)) lookup of a phrase within a document. 
-
-Aside from the performance benefit, it yields itself nicely to answering questions such the number of occurrences of a phrase or the average distance between occurrences of a phrase within a document. This because of the structure of an inverted index - by definition, it is a mapping of a terms or phrases to their respective position(s) within a document.
+I solved this by building an app that generates a series of inverted indices of phrases found in the source document. I consider a phrase to be a series of words separated by spaces. The inverted index allows for a constant-time (i.e. O(1)) lookup of a phrase within a document. Aside from the performance benefit, an inverted index yields itself nicely to answering questions such the number of occurrences of a phrase or the average distance between occurrences of a phrase within a document. This is because of the structure of an inverted index - by definition, it is a mapping of a terms or phrases to their respective position(s) within a document.
 
 The program operates by parsing a set of command line arguments (run `python phrase_counter.py --help` to see all options) and then invoking a search within an appropriate index file (via index_search()). If indices are unavailable, they're constructed (via build_all_indices). 
 
