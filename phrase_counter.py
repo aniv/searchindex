@@ -95,8 +95,9 @@ def build_index(document, ngram=0, case_sensitive=False):
 		else:
 			if (not case_sensitive):
 				line = line.lower()
-				
-			line_terms = map(lambda x: x.rstrip(",.:;'\"!?()-"), line.split())  # strip problematic punc's
+			
+			line_terms = re.compile('\W+').split(line)  # aggressive removal of all punc's - improves matches
+			#line_terms = map(lambda x: x.rstrip(",.:;'\"!?()-"), line.split())  # less aggressive removal of punc's - misses some matches
 
 			if (ngram > 0):
 				for i in xrange(0, len(line_terms)):
