@@ -21,29 +21,21 @@ def main():
 	else:
 		phrase = args.phrase
 	
-	print args
-	
-	if (args.rebuild_index):
+	if (args.rebuild_index or not find_index(document)):
 		build_all_indices(document)
 	
-	if (args.algo == 'search'):
+	lookup_index = len(phrase.split())
+	if (args.algo == 'search' or lookup_index > 5):
 		results = linear_forward_search(phrase, document, args.case_sensitive)
-		if (len(results) > 0):
-			print "Found %d occurances of '%s' in %s" % ( len(results), phrase, document )
-			print "With an average word distance of %d" % ( reduce(lambda x,y: x+y, results)/len(results) )
-		else:
-			print "No occurances of '%s' found in %s" % ( phrase, document )
 	else:
-		lookup_index = len(phrase.split())
-		if (lookup_index <= 5):
-		#for i in xrange(1, 6):
-		#	results = index_search(phrase, document, args.case_sensitive, 'pg2600_'+str(i)+'.idx')
-			results = index_search(phrase, document, args.case_sensitive)
-			print results
-		else:
-			results = linear_forward_search(phrase, document, args.case_sensitive)
+		results = index_search(phrase, document, args.case_sensitive)
 
-	#print results
+	if (len(results) > 0):
+		print "%d occurances of '%s' in '%s'" % ( len(results), phrase, document )
+		print "Word positions: " + str(results)
+		print "Avg word distance: " + str( reduce(lambda x,y: x+y, results) / len(results) )
+	else:
+		print "No occurances of '%s' found in %s" % ( phrase, document )
 
 
 def index_search(phrase, document, case_sensitivity=False, doc_override=""):
@@ -99,7 +91,7 @@ def build_index(document, ngram=0, case_sensitive=False):
 			if (not case_sensitive):
 				line = line.lower()
 				
-			line_terms = map(lambda x: x.rstrip(",.:;'\"!?()-"), line.split())
+			line_terms = map(lambda x: x.rstrip(",.:;'\"!?()-"), line.split())  # strip problematic punc's
 
 			if (ngram > 0):
 				for i in xrange(0, len(line_terms)):
@@ -112,10 +104,8 @@ def build_index(document, ngram=0, case_sensitive=False):
 		
 		for i, t in enumerate(terms):
 			if t in index:
-				# print "Appending %s to index with pos %d" % (t, tc+i)
 				index[t].append(tc + i)
 			else:
-				# print 'Adding %s to index with pos %d' % (t, tc+i)
 				index[t] = [tc + i]
 
 		tc += len(line_terms)
@@ -123,7 +113,13 @@ def build_index(document, ngram=0, case_sensitive=False):
 	f.close()
 	return index
 
-def linear_forward_search(phrase, document, case_sensitive=False):
+def find_index(document):
+	"""
+	Find indices for document in current working directory
+	"""
+	return len(filter(lambda f: f.find(".idx")>0, os.listdir("."))) > 0
+
+def linear_search(phrase, document, case_sensitive=False):
 	"""
 	Perform a linear search for phrase in document and
 	returns a list of character positions and word distance
