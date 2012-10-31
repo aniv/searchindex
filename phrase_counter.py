@@ -32,7 +32,7 @@ def main():
 	else:
 		results = index_search(phrase, document, args.case_sensitive)
 
-	if (len(results) > 0):
+	if (results != None and len(results) > 0):
 		print "%d occurences of '%s' in '%s'" % ( len(results), phrase, document )
 		print "Word positions: " + str(results)
 		print "Avg word distance: " + str( reduce(lambda x,y: x+y, results) / len(results) )
@@ -59,7 +59,7 @@ def index_search(phrase, document, case_sensitivity=False, doc_override=""):
 	if phrase in index:
 		return index[phrase]
 	else:
-		return -1;
+		return None;
 	
 
 def build_all_indices(document):
