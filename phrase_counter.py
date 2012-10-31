@@ -102,9 +102,9 @@ def build_index(document, ngram=0, case_sensitive=False):
 			if (ngram > 0):
 				for i in xrange(0, len(line_terms)):
 					window = i + ngram  # normally ngrams -1, but +1 for use in indices below
-					terms.append(" ".join(line_terms[i:window]))
 					if (window >= len(line_terms)):
 						break
+					terms.append(" ".join(line_terms[i:window]))
 			else:
 				break
 		

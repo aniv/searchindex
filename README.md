@@ -16,16 +16,55 @@ Run the program using this sample input file of War and Peace in text version us
 
 
 ## Output:
+    charlie:Dev aniv$ python phrase_counter.py pg2600.txt peace
     Searching for 'peace' in pg2600_1.idx
-    113 occurrences of 'peace' in 'pg2600.txt'
-    Word positions: [7, 58, 89, 96, 3125, 9174, 26693, 36845, 38709, 39368, 46056, 64552, 68691, 68694, 71694, 72925, 74461, 74504, 75059, 115163, 120934, 126568, 132594, 144941, 156765, 161668, 174587, 175193, 178192, 179165, 185658, 186559, 189249, 189263, 201496, 217929, 217937, 217944, 224508, 246272, 249808, 249889, 251120, 252710, 274081, 278370, 278433, 278803, 281136, 281370, 281678, 284521, 284682, 284845, 285203, 285298, 285353, 285685, 285977, 291791, 291834, 292259, 296545, 304871, 304897, 306194, 307545, 311062, 311275, 319168, 319513, 325966, 325973, 326087, 326383, 326528, 326712, 331746, 331756, 334436, 344503, 344522, 344579, 356001, 391085, 403884, 403921, 423524, 434407, 438201, 440397, 441530, 457454, 462514, 463211, 467638, 468165, 471523, 471566, 501907, 501914, 508057, 508068, 508084, 525960, 526839, 532071, 540018, 543016, 544019, 546144, 562540, 562553]
-    Avg word distance: 281457
+    115 occurences of 'peace' in 'pg2600.txt'
+    Word positions: [8, 73, 121, 147, 3697, 10898, 31776, 43747, 45915, 46679, 54504, 76825, 81627, 81630, 85281, 86767, 88604, 88653, 89320, 135870, 142590, 149110, 156127, 170661, 184785, 190459, 205408, 206130, 209734, 210870, 218442, 219514, 222703, 222718, 236890, 256021, 256030, 256037, 263601, 289264, 293280, 293372, 294823, 296761, 322037, 327122, 327193, 327623, 330294, 330564, 330926, 334251, 334444, 334631, 335039, 335153, 335168, 335224, 335598, 335927, 342583, 342632, 343109, 347984, 357467, 357503, 358941, 360504, 364757, 364994, 374154, 374559, 382097, 382105, 382230, 382571, 382733, 382940, 388796, 388807, 391893, 403823, 403843, 403904, 417365, 458088, 473177, 473217, 496094, 508779, 513215, 513218, 515709, 517015, 535448, 541339, 542112, 547237, 547832, 551719, 551765, 587307, 587314, 594644, 594656, 594674, 615477, 616479, 622550, 631879, 635385, 636569, 639052, 657758, 657774]
+    Avg word distance: 331725
 
-    ...
+	charlie:GenAssemblyFair aniv$ python phrase_counter.py --help
+	usage: phrase_counter.py [-h] [--algorithm {search,index}] [--case-sensitive]
+	                         [--rebuild-index] [--index-stats]
+	                         file phrase
 
-    Most popular 3-length phrases (from pg2600_3.idx)
-    [('as soon as', 135), ('that he was', 144), ('out of the', 164), ('one of the', 164)]
+	Find occurances and average word distance of a phrase in a file
 
+	positional arguments:
+	  file                  file name to search
+	  phrase                a phrase to search for (in quotes)
+
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  --algorithm {search,index}
+	                        choice of algorithm: search (linear forward) or index
+	                        (inverted)
+	  --case-sensitive      apply case sensitivity when searching for phrase
+	  --rebuild-index       force a rebuild of the inverted index
+	  --index-stats         print out statistics of index files
+
+
+	charlie:Dev aniv$ python phrase_counter.py --index-stats pg2600.txt foo
+	Searching for 'foo' in pg2600_1.idx
+	1 occurences of 'foo' in 'pg2600.txt'
+	Word positions: [298904]
+	Avg word distance: 298904
+
+	Most popular 1-length phrases (from pg2600_1.idx)
+	[('of', 15007), ('to', 16753), ('', 20183), ('and', 22300)]
+
+	Most popular 2-length phrases (from pg2600_2.idx)
+	[('at the', 1288), ('and the', 1406), ('in the', 2213), ('to the', 2226)]
+
+	Most popular 3-length phrases (from pg2600_3.idx)
+	[('that he was', 146), ('out of the', 164), ('one of the', 166), ('i don t', 196)]
+
+	Most popular 4-length phrases (from pg2600_4.idx)
+	[('at the same time', 50), ('i don t know', 51), ('for the first time', 61), ('for a long time', 72)]
+
+	Most popular 5-length phrases (from pg2600_5.idx)
+	[('up and down the room', 13), ('the middle of the room', 14), ('that s it come on', 15), ('it seemed to him that', 16)]
+	
+	
 ## Solution:
 I solved this by building an app that generates a series of inverted indices of phrases found in the source document. I consider a phrase to be a series of words separated by spaces. The inverted index allows for a constant-time (i.e. O(1)) lookup of a phrase within a document. Aside from the performance benefit, an inverted index yields itself nicely to answering questions such the number of occurrences of a phrase or the average distance between occurrences of a phrase within a document. This is because of the structure of an inverted index - by definition, it is a mapping of a terms or phrases to their respective position(s) within a document.
 
