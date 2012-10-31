@@ -5,6 +5,8 @@ Using a language of your choice write a program which takes in the input of a pl
 Run the program using this sample input file of War and Peace in text version using the search string: peace.
 
 ## Files:
+Hosted on github: https://github.com/aniv/ga-dev-ex-2012
+
 * phrase_counter.py: Python program
 * README.md: Readme (this file)
 * pg2600.txt: Source document (War and Peace from Project Gutenberg)
