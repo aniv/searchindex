@@ -4,6 +4,17 @@
 Using a language of your choice write a program which takes in the input of a plaintext data file and a search string. The program returns both a count of the times the string appears in the file and the average number of words between each instance of the search string.
 Run the program using this sample input file of War and Peace in text version using the search string: peace.
 
+## Files:
+* phrase_counter.py: Python program
+* README.md: Readme (this file)
+* pg2600.txt: Source document (War and Peace from Project Gutenberg)
+* pg2600_1.idx: Inverted index file for phrases of length 1 (provided pre-built, can be regenerated using program) from pg2600.txt
+* pg2600_2.idx: Inverted index file for phrases of length 2 (provided pre-built, can be regenerated using program) from pg2600.txt
+* pg2600_3.idx: Inverted index file for phrases of length 3 (provided pre-built, can be regenerated using program) from pg2600.txt
+* pg2600_4.idx: Inverted index file for phrases of length 4 (provided pre-built, can be regenerated using program) from pg2600.txt
+* pg2600_5.idx: Inverted index file for phrases of length 5 (provided pre-built, can be regenerated using program) from pg2600.txt
+
+
 ## Output:
     Searching for 'peace' in pg2600_1.idx
     113 occurrences of 'peace' in 'pg2600.txt'

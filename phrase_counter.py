@@ -8,11 +8,11 @@ def main():
 	parser = argparse.ArgumentParser(description='Find occurances and average word distance of a phrase in a file')
 	parser.add_argument('file', help='file name to search')
 	parser.add_argument('phrase', help='a phrase to search for (in quotes)')
-	parser.add_argument('--algorithm', choices=['search','index'], dest='algo', default='index', help='choice of algorithm: search (linear forward) or index (inverted forward)')
+	parser.add_argument('--algorithm', choices=['search','index'], dest='algo', default='index', help='choice of algorithm: search (linear forward) or index (inverted)')
 	parser.add_argument('--case-sensitive', dest='case_sensitive', action='store_true',
 	                   help='apply case sensitivity when searching for phrase')
 	parser.add_argument('--rebuild-index', dest='rebuild_index', action='store_true',
-	                   help='force a rebuild of the forward index')
+	                   help='force a rebuild of the inverted index')
 	parser.add_argument('--index-stats', dest='index_stats', action='store_true',
 	                   help='print out statistics of index files')
 	args = parser.parse_args()
@@ -64,7 +64,7 @@ def index_search(phrase, document, case_sensitivity=False, doc_override=""):
 
 def build_all_indices(document):
 	"""
-	Rebuild forward index for phrases of length 1 to PHRASE_SIZE_INDEX inclusive
+	Rebuild inverted index for phrases of length 1 to PHRASE_SIZE_INDEX inclusive
 	"""
 	PHRASE_SIZE_INDEX = 5 + 1
 	
